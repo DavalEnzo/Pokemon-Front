@@ -2,7 +2,6 @@ const express = require('express');
 const axios = require('axios');
 const ejs = require('ejs');
 
-
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -40,3 +39,4 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
   console.log('Le serveur a démarré sur le port 3000');
 });
+module.exports = app;
