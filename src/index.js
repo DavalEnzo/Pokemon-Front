@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const app = express();
 
 app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'));
+app.use(express.static('./css'));
 app.set('view engine', 'ejs');
 
 // Définition de la route pour afficher les 20 premiers Pokémon
