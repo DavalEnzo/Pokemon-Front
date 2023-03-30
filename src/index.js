@@ -4,6 +4,7 @@ const ejs = require('ejs');
 
 const app = express();
 
+app.use('/bootstrap', express.static('./node_modules/bootstrap/dist'));
 app.set('view engine', 'ejs');
 
 // Définition de la route pour afficher les 20 premiers Pokémon
@@ -23,7 +24,7 @@ app.get('/', (req, res) => {
 
             // Si on a récupéré toutes les informations des 20 premiers Pokémon, on renvoie la vue index.ejs
             if (pokemonArray.length === 20) {
-              res.render('index', { pokemon: pokemonArray });
+              res.render('index', { pokemons: pokemonArray });
             }
           })
           .catch(error => {
