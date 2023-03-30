@@ -8,24 +8,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 14.x, 16.x, 18.x ]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Configuration Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Installation des dépendances
-        run: npm install
-
-      - name: Lancement de Redis
-        run: docker-compose -f docker-compose.ci.yml up -d
+      - name: Compilation du projet
+        run: docker-compose up -d
 
       - name: Lancement des tests
         run: npm test
