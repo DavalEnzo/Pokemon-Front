@@ -26,3 +26,9 @@ jobs:
 
       - name: Lancement des tests
         run: npm test
+
+      - name: Création de l'image Docker
+        run: |
+          docker build . -t ghcr.io/davalenzo/pokemon-front-test:${{ matrix.node-version }}
+          docker run ghcr.io/davalenzo/pokemon-front-test:${{ matrix.node-version }}
+          docker push ghcr.io/davalenzo/pokemon-front-test:${{ matrix.node-version }}
