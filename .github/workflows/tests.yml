@@ -1,11 +1,9 @@
 name: pokemon-front
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-    tags:
-      - '1.*'
 
 jobs:
   test:
@@ -28,16 +26,3 @@ jobs:
 
       - name: Lancement des tests
         run: npm test
-
-      - name: Connexion à docker
-        uses: docker/login-action@v2.1.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Création de l'image Docker et envoie sur le registry
-        run: |
-          docker build . -t ghcr.io/davalenzo/pokemon-front-test:${{ matrix.node-version }}
-          docker run ghcr.io/davalenzo/pokemon-front-test:${{ matrix.node-version }}
-          docker push ghcr.io/davalenzo/pokemon-front-test:${{ matrix.node-version }}
