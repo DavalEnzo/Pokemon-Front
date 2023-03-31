@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-kube-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pokemon-kube
+  template:
+    metadata:
+      labels:
+        app: pokemon-kube
+    spec:
+      containers:
+        - name: pokemon-kube
+          image: ghcr.io/davalenzo/pokemon-front-test:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pokemon-kube-service
+spec:
+    selector:
+        app: pokemon-kube
+    ports:
+      - name: http
+        protocol: TCP
+        port: 8080
+        targetPort: 3000
+    type: NodePort
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pokemon-kube-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+    rules:
+      - http:
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: pokemon-kube-service
+                  port:
+                    number: 8080
+
+
